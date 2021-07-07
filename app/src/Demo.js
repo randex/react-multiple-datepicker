@@ -39,10 +39,7 @@ const Demo = props => {
       <MultipleDatePicker
         open={open}
         selectedDates={dates}
-        selectedDatesTitle={"Puhkepeävad"}
-        disabledDatesTitle={"Broneeringud"}
         onCancel={onCancel}
-        disabledDates={[new Date()]}
         onSubmit={onSubmit}
       />
       <Typography color='textSecondary'>
