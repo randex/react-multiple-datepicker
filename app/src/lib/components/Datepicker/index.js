@@ -42,7 +42,8 @@ const DatePicker = ({
   disabledDates,
   cancelButtonText,
   submitButtonText = 'Submit',
-  selectedDatesTitle = 'Selected Dates'
+  selectedDatesTitle = 'Selected Dates',
+  disabledDatesTitle
 }) => {
   if (cancelButtonText == null) {
     cancelButtonText = readOnly ? 'Dismiss' : 'Cancel'
@@ -128,6 +129,7 @@ const DatePicker = ({
       <Calendar
         selectedDates={selectedDates}
         disabledDates={disabledDates}
+        disabledDatesTitle={disabledDatesTitle}
         onSelect={onSelect}
         onRemoveAtIndex={onRemoveAtIndex}
         minDate={minDate}
@@ -152,7 +154,8 @@ DatePicker.propTypes = {
   selectedDates: PropTypes.array,
   cancelButtonText: PropTypes.string,
   submitButtonText: PropTypes.string,
-  selectedDatesTitle: PropTypes.string
+  selectedDatesTitle: PropTypes.string,
+  disabledDatesTitle: PropTypes.string
 }
 
 export default DatePicker

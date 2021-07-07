@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { withStyles, List, ListItem, ListItemText, Typography } from '@material-ui/core'
+import React, {Component} from 'react'
+import {List, ListItem, ListItemText, Typography, withStyles} from '@material-ui/core'
 import DeleteIcon from '@material-ui/icons/Clear'
 import moment from 'moment'
 
@@ -32,9 +32,9 @@ class DateDisplay extends Component {
     selectedYear: false
   }
 
-  componentDidMount () {
+  componentDidMount() {
     if (!this.props.monthDaySelected) {
-      this.setState({ selectedYear: true })
+      this.setState({selectedYear: true})
     }
   }
 
@@ -54,8 +54,8 @@ class DateDisplay extends Component {
     this.props.onRemoveAtIndex(index)
   }
 
-  render () {
-    const { classes, selectedDates, readOnly } = this.props
+  render() {
+    const {classes, selectedDates, readOnly, disabledDatesTitle, disabledDates} = this.props
 
     return (
       <div className={classes.root}>
@@ -73,11 +73,33 @@ class DateDisplay extends Component {
               disabled={readOnly}
               onClick={this.removeDateAtIndex(index)}
             >
-              <ListItemText primary={this.getFormatedDate(date)} />
-              {!readOnly && <DeleteIcon color='error' />}
+              <ListItemText primary={this.getFormatedDate(date)}/>
+              {!readOnly && <DeleteIcon color='error'/>}
             </ListItem>
           ))}
         </List>
+        {disabledDatesTitle &&
+        <>
+          <div className={classes.header}>
+            <Typography variant='subtitle1'>{this.props.disabledDatesTitle}</Typography>
+            <Typography variant='subtitle1' color={readOnly ? 'textSecondary' : 'primary'}>
+              {disabledDates.length}
+            </Typography>
+          </div>
+          <List dense className={classes.list}>
+            {disabledDates.map((date, index) => (
+              <ListItem
+                key={`${date.toString()}`}
+                button={readOnly}
+                disabled={readOnly}
+                onClick={this.removeDateAtIndex(index)}
+              >
+                <ListItemText primary={this.getFormatedDate(date)}/>
+              </ListItem>
+            ))}
+          </List>
+        </>
+        }
       </div>
     )
   }

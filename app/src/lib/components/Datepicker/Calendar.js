@@ -64,7 +64,8 @@ const Calendar = ({
   onRemoveAtIndex,
   cancelButtonText,
   submitButtonText,
-  selectedDatesTitle
+  selectedDatesTitle,
+  disabledDatesTitle
 }) => {
   const calendar = useRef(null)
   const classes = useStyles()
@@ -128,8 +129,10 @@ const Calendar = ({
       </div>
       <DateDisplay
         selectedDatesTitle={selectedDatesTitle}
+        disabledDatesTitle={disabledDatesTitle}
         selectedDates={selectedDates}
         readOnly={readOnly}
+        disabledDates={disabledDates || []}
         onRemoveAtIndex={onRemoveAtIndex}
       />
     </div>
