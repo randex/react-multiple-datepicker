@@ -68,6 +68,7 @@ const Example = () => {
 | cancelButtonText   | string          | if `readOnly` then "Dismiss" is not then "Cancel" | Cancel button title                                          |
 | submitButtonText   | string          | Submit                                            | Submit button title                                          |
 | selectedDatesTitle | string          | Selected Dates                                    | Selected dates list header title                             |
+| disabledDatesTitle | string          | Disabled Selected Dates                           | Disabled dates list header title - can not be modified but are visible to eye                             |
 
 ## To-Do
 
