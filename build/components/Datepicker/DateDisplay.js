@@ -120,7 +120,9 @@ function (_Component) {
       var _this$props = this.props,
           classes = _this$props.classes,
           selectedDates = _this$props.selectedDates,
-          readOnly = _this$props.readOnly;
+          readOnly = _this$props.readOnly,
+          disabledDatesTitle = _this$props.disabledDatesTitle,
+          disabledDates = _this$props.disabledDates;
       return _react["default"].createElement("div", {
         className: classes.root
       }, _react["default"].createElement("div", {
@@ -144,7 +146,26 @@ function (_Component) {
         }), !readOnly && _react["default"].createElement(_Clear["default"], {
           color: "error"
         }));
-      })));
+      })), disabledDatesTitle && _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement("div", {
+        className: classes.header
+      }, _react["default"].createElement(_core.Typography, {
+        variant: "subtitle1"
+      }, this.props.disabledDatesTitle), _react["default"].createElement(_core.Typography, {
+        variant: "subtitle1",
+        color: readOnly ? 'textSecondary' : 'primary'
+      }, disabledDates.length)), _react["default"].createElement(_core.List, {
+        dense: true,
+        className: classes.list
+      }, disabledDates.map(function (date, index) {
+        return _react["default"].createElement(_core.ListItem, {
+          key: "".concat(date.toString()),
+          button: readOnly,
+          disabled: readOnly,
+          onClick: _this2.removeDateAtIndex(index)
+        }, _react["default"].createElement(_core.ListItemText, {
+          primary: _this2.getFormatedDate(date)
+        }));
+      }))));
     }
   }]);
 

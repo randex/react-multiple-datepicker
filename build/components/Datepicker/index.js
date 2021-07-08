@@ -86,7 +86,8 @@ var DatePicker = function DatePicker(_ref) {
       _ref$submitButtonText = _ref.submitButtonText,
       submitButtonText = _ref$submitButtonText === void 0 ? 'Submit' : _ref$submitButtonText,
       _ref$selectedDatesTit = _ref.selectedDatesTitle,
-      selectedDatesTitle = _ref$selectedDatesTit === void 0 ? 'Selected Dates' : _ref$selectedDatesTit;
+      selectedDatesTitle = _ref$selectedDatesTit === void 0 ? 'Selected Dates' : _ref$selectedDatesTit,
+      disabledDatesTitle = _ref.disabledDatesTitle;
 
   if (cancelButtonText == null) {
     cancelButtonText = readOnly ? 'Dismiss' : 'Cancel';
@@ -164,6 +165,7 @@ var DatePicker = function DatePicker(_ref) {
   }, _react["default"].createElement(_Calendar["default"], {
     selectedDates: selectedDates,
     disabledDates: disabledDates,
+    disabledDatesTitle: disabledDatesTitle,
     onSelect: onSelect,
     onRemoveAtIndex: onRemoveAtIndex,
     minDate: minDate,
@@ -185,7 +187,8 @@ DatePicker.propTypes = {
   selectedDates: _propTypes["default"].array,
   cancelButtonText: _propTypes["default"].string,
   submitButtonText: _propTypes["default"].string,
-  selectedDatesTitle: _propTypes["default"].string
+  selectedDatesTitle: _propTypes["default"].string,
+  disabledDatesTitle: _propTypes["default"].string
 };
 var _default = DatePicker;
 exports["default"] = _default;

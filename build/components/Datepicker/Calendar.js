@@ -21,6 +21,8 @@ var _DateDisplay = _interopRequireDefault(require("./DateDisplay"));
 
 var _core = require("@material-ui/core");
 
+var _TextField = _interopRequireDefault(require("@material-ui/core/TextField"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
@@ -88,7 +90,8 @@ var Calendar = function Calendar(_ref) {
       onRemoveAtIndex = _ref.onRemoveAtIndex,
       cancelButtonText = _ref.cancelButtonText,
       submitButtonText = _ref.submitButtonText,
-      selectedDatesTitle = _ref.selectedDatesTitle;
+      selectedDatesTitle = _ref.selectedDatesTitle,
+      disabledDatesTitle = _ref.disabledDatesTitle;
   var calendar = (0, _react.useRef)(null);
   var classes = useStyles();
 
@@ -134,6 +137,22 @@ var Calendar = function Calendar(_ref) {
     onSelect: onSelect,
     readOnly: readOnly,
     ref: calendar
+  }), _react["default"].createElement(_TextField["default"], {
+    id: "datetime-local",
+    label: "Rendi algus",
+    type: "datetime-local",
+    defaultValue: "2017-05-24T10:30",
+    InputLabelProps: {
+      shrink: true
+    }
+  }), _react["default"].createElement(_TextField["default"], {
+    id: "datetime-local",
+    label: "Rendi l\xF5pp",
+    type: "datetime-local",
+    defaultValue: "2017-05-24T10:30",
+    InputLabelProps: {
+      shrink: true
+    }
   })), _react["default"].createElement(_CalendarButtons["default"], {
     readOnly: readOnly,
     onCancel: onCancel,
@@ -142,8 +161,10 @@ var Calendar = function Calendar(_ref) {
     submitButtonText: submitButtonText
   })), _react["default"].createElement(_DateDisplay["default"], {
     selectedDatesTitle: selectedDatesTitle,
+    disabledDatesTitle: disabledDatesTitle,
     selectedDates: selectedDates,
     readOnly: readOnly,
+    disabledDates: disabledDates || [],
     onRemoveAtIndex: onRemoveAtIndex
   }));
 };
