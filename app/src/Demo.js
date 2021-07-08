@@ -40,6 +40,7 @@ const Demo = props => {
         open={open}
         selectedDates={dates}
         onCancel={onCancel}
+        selectedDatesTitle={"Kinnised päevad"}
         onSubmit={onSubmit}
       />
       <Typography color='textSecondary'>

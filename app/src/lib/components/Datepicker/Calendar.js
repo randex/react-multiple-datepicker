@@ -5,7 +5,8 @@ import { defaultUtils as utils } from './dateUtils'
 import CalendarToolbar from './CalendarToolbar'
 import CalendarButtons from './CalendarButtons'
 import DateDisplay from './DateDisplay'
-import { makeStyles } from '@material-ui/core'
+import { makeStyles} from '@material-ui/core'
+import TextField from "@material-ui/core/TextField";
 
 // const Root = styled.div`
 //   color: rgba(0, 0, 0, 0.87);
@@ -117,6 +118,24 @@ const Calendar = ({
             onSelect={onSelect}
             readOnly={readOnly}
             ref={calendar}
+          />
+          <TextField
+            id="datetime-local"
+            label="Rendi algus"
+            type="datetime-local"
+            defaultValue="2017-05-24T10:30"
+            InputLabelProps={{
+              shrink: true,
+            }}
+          />
+          <TextField
+            id="datetime-local"
+            label="Rendi lõpp"
+            type="datetime-local"
+            defaultValue="2017-05-24T10:30"
+            InputLabelProps={{
+              shrink: true,
+            }}
           />
         </div>
         <CalendarButtons

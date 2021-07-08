@@ -18,7 +18,7 @@ const useCircleStyles = makeStyles(theme => ({
     color: theme.palette.text.disabled
   },
   todayRoot: {
-    background: theme.palette.background.default
+    background: '#ecdfdf'
   },
   checkedRoot: {
     background: theme.palette.primary.main
