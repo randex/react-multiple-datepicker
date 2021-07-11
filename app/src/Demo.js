@@ -50,6 +50,7 @@ const Demo = props => {
         open={open}
         selectedDates={dates}
         onCancel={onCancel}
+        readOnly
         selectedDatesTitle={"Valitud rendipäevad"}
         disabledDatesTitle={"Broneeritud päevad"}
         onSubmit={onSubmit}
