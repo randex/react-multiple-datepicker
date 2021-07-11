@@ -1,9 +1,9 @@
-import React, { useReducer, useCallback, useEffect } from 'react'
+import React, {useCallback, useEffect, useReducer, useState} from 'react'
 import PropTypes from 'prop-types'
 import DateUtilities from './utils'
 import Calendar from './Calendar'
-import { Dialog } from '@material-ui/core'
-import { makeStyles } from '@material-ui/styles'
+import {Dialog} from '@material-ui/core'
+import {makeStyles} from '@material-ui/styles'
 
 const useStyles = makeStyles(theme => ({
   dialogPaper: {
@@ -16,7 +16,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function initState (selectedDates) {
+function initState(selectedDates) {
   return {
     selectedDates: selectedDates ? [...selectedDates] : [],
     minDate: null,
@@ -24,32 +24,39 @@ function initState (selectedDates) {
   }
 }
 
-function reducer (state, action) {
+function reducer(state, action) {
   switch (action.type) {
     case 'setSelectedDates':
-      return { ...state, selectedDates: action.payload }
+      return {...state, selectedDates: action.payload}
     default:
       return new Error('wrong action type in multiple date picker reducer')
   }
 }
 
 const DatePicker = ({
-  open,
-  readOnly,
-  onCancel,
-  onSubmit,
-  selectedDates: outerSelectedDates,
-  disabledDates,
-  cancelButtonText,
-  submitButtonText = 'Submit',
-  selectedDatesTitle = 'Selected Dates',
-  disabledDatesTitle
+                      open,
+                      readOnly,
+                      onCancel,
+                      onSubmit,
+                      selectedDates: outerSelectedDates,
+                      disabledDates,
+                      cancelButtonText,
+                      submitButtonText = 'Submit',
+                      selectedDatesTitle = 'Selected Dates',
+                      disabledDatesTitle,
+                      disableClock,
+                      times,
+                      halfDisabledDates
 }) => {
+  // Tekitame aegadest topelt halduse - Komponenti antakse kasutaja puhke kellaajad
+  // Kui aga valitud päev on halfDisabledDate - siis näitame algus kella hoopis selle järgi
+  const [timesInternal, setTimesInternal] = useState(times || [])
+
   if (cancelButtonText == null) {
     cancelButtonText = readOnly ? 'Dismiss' : 'Cancel'
   }
 
-  const [{ selectedDates, minDate, maxDate }, dispatch] = useReducer(
+  const [{selectedDates, minDate, maxDate}, dispatch] = useReducer(
     reducer,
     outerSelectedDates,
     initState
@@ -59,7 +66,27 @@ const DatePicker = ({
 
   const onSelect = useCallback(
     day => {
-      if (readOnly) return
+      if (readOnly) {
+        return
+      }
+
+      // RENDIFY LOGIC BEGIN
+      // On toote kella ajad ning on ka renditud päevad
+      if (times && halfDisabledDates) {
+        const isHalfDisabledDate = halfDisabledDates.find(e => DateUtilities.isSameDay(day, e))
+        if (isHalfDisabledDate) {
+          alert('see päev on renditud')
+          var later = new Date().getTime() + 86400000;
+          var earlier = new Date().getTime() + 82400000;
+          var tomorrowLater = new Date(later);
+          var tomorrowEarly = new Date(earlier);
+
+          setTimesInternal([tomorrowEarly, tomorrowLater])
+        } else {
+          setTimesInternal(times || [])
+        }
+        // RENDIFY END
+      }
 
       if (DateUtilities.dateIn(selectedDates, day)) {
         dispatch({
@@ -67,28 +94,30 @@ const DatePicker = ({
           payload: selectedDates.filter(date => !DateUtilities.isSameDay(date, day))
         })
       } else {
-        dispatch({ type: 'setSelectedDates', payload: [...selectedDates, day] })
+        dispatch({type: 'setSelectedDates', payload: [...selectedDates, day]})
       }
     },
-    [selectedDates, dispatch, readOnly]
+    [selectedDates, dispatch, readOnly, halfDisabledDates, times]
   )
 
   const onRemoveAtIndex = useCallback(
     index => {
-      if (readOnly) return
+      if (readOnly) {
+        return
+      }
       const newDates = [...selectedDates]
       if (index > -1) {
         newDates.splice(index, 1)
       }
 
-      dispatch({ type: 'setSelectedDates', payload: newDates })
+      dispatch({type: 'setSelectedDates', payload: newDates})
     },
     [selectedDates, dispatch, readOnly]
   )
 
   const dismiss = useCallback(
     () => {
-      dispatch({ type: 'setSelectedDates', payload: [] })
+      dispatch({type: 'setSelectedDates', payload: []})
       onCancel()
     },
     [dispatch, onCancel]
@@ -105,7 +134,9 @@ const DatePicker = ({
   const handleOk = useCallback(
     e => {
       e.preventDefault()
-      if (readOnly) return
+      if (readOnly) {
+        return
+      }
       onSubmit(selectedDates)
     },
     [onSubmit, selectedDates, readOnly]
@@ -124,7 +155,7 @@ const DatePicker = ({
   )
 
   return (
-    <Dialog open={open} classes={{ paper: classes.dialogPaper }}>
+    <Dialog open={open} classes={{paper: classes.dialogPaper}}>
       {/* <DialogContent> */}
       <Calendar
         selectedDates={selectedDates}
@@ -137,9 +168,11 @@ const DatePicker = ({
         onCancel={handleCancel}
         onOk={handleOk}
         readOnly={readOnly}
+        disableClock={disableClock}
         cancelButtonText={cancelButtonText}
         submitButtonText={submitButtonText}
         selectedDatesTitle={selectedDatesTitle}
+        times={timesInternal}
       />
       {/* </DialogContent> */}
     </Dialog>
@@ -155,7 +188,10 @@ DatePicker.propTypes = {
   cancelButtonText: PropTypes.string,
   submitButtonText: PropTypes.string,
   selectedDatesTitle: PropTypes.string,
-  disabledDatesTitle: PropTypes.string
+  disabledDatesTitle: PropTypes.string,
+  disableClock: PropTypes.string,
+  halfDisabledDates: PropTypes.array,
+  times: PropTypes.array
 }
 
 export default DatePicker

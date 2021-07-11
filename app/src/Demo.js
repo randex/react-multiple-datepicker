@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react'
-import { makeStyles } from '@material-ui/styles'
-import { Button, Typography } from '@material-ui/core'
+import React, {useCallback, useState} from 'react'
+import {makeStyles} from '@material-ui/styles'
+import {Button, Typography} from '@material-ui/core'
 import MultipleDatePicker from './lib'
 
 const useStyles = makeStyles(theme => ({
@@ -31,6 +31,16 @@ const Demo = props => {
     [setDates]
   )
 
+  // -- 3 tüüpi kuupäevad
+  // Ei saa päevi vahele jätta. <-- implement in rendify frontend
+
+  const ms = 86400000;
+  const later = new Date().getTime() + ms;
+  const earlier = new Date().getTime() + 84400000;
+  const tomorrowLater = new Date(later);
+  const theDayAfterTomorrow = new Date(tomorrowLater.getTime() + ms)
+  const tomorrowEarly = new Date(earlier);
+
   return (
     <div className={classes.root}>
       <Button variant='contained' color='primary' className={classes.button} onClick={toggleOpen}>
@@ -40,8 +50,12 @@ const Demo = props => {
         open={open}
         selectedDates={dates}
         onCancel={onCancel}
-        selectedDatesTitle={"Kinnised päevad"}
+        selectedDatesTitle={"Valitud rendipäevad"}
+        disabledDatesTitle={"Broneeritud päevad"}
         onSubmit={onSubmit}
+        disabledDates={[new Date(), tomorrowLater, theDayAfterTomorrow]}
+        halfDisabledDates={[new Date(theDayAfterTomorrow.getTime() + ms)]}
+        times={[tomorrowEarly, tomorrowLater]}
       />
       <Typography color='textSecondary'>
         <code>{JSON.stringify(dates)}</code>

@@ -1,12 +1,15 @@
-import React, { useRef, useCallback, useState, useEffect } from 'react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
 import WeekHeader from './WeekHeader'
 import Month from './Month'
-import { defaultUtils as utils } from './dateUtils'
+import {defaultUtils as utils} from './dateUtils'
 import CalendarToolbar from './CalendarToolbar'
 import CalendarButtons from './CalendarButtons'
 import DateDisplay from './DateDisplay'
-import { makeStyles} from '@material-ui/core'
-import TextField from "@material-ui/core/TextField";
+import {makeStyles} from '@material-ui/core'
+import MenuItem from "@material-ui/core/MenuItem";
+import FormControl from "@material-ui/core/FormControl";
+import Select from "@material-ui/core/Select";
+import moment from "moment";
 
 // const Root = styled.div`
 //   color: rgba(0, 0, 0, 0.87);
@@ -53,23 +56,28 @@ const useStyles = makeStyles(theme => ({
 // `
 
 const Calendar = ({
-  initialDate,
-  maxDate,
-  minDate,
-  selectedDates,
-  disabledDates,
-  onSelect,
-  onCancel,
-  onOk,
-  readOnly,
-  onRemoveAtIndex,
-  cancelButtonText,
-  submitButtonText,
-  selectedDatesTitle,
-  disabledDatesTitle
-}) => {
+                    initialDate,
+                    maxDate,
+                    minDate,
+                    selectedDates,
+                    disabledDates,
+                    onSelect,
+                    onCancel,
+                    onOk,
+                    readOnly,
+                    onRemoveAtIndex,
+                    cancelButtonText,
+                    submitButtonText,
+                    selectedDatesTitle,
+                    disabledDatesTitle,
+                    disableClock,
+                    times
+                  }) => {
+  const [chosenStartTs, setChosenStartTs] = React.useState(100);
+  const [chosenEndTs, setChosenEndTs] = React.useState(100);
+
   const calendar = useRef(null)
-  const classes = useStyles()
+  const classes = useStyles();
 
   const [displayDate, setDisplayDate] = useState(() =>
     utils.getFirstDayOfMonth(initialDate || new Date())
@@ -107,7 +115,7 @@ const Calendar = ({
             prevMonth={toolbarInteractions.prevMonth}
             nextMonth={toolbarInteractions.nextMonth}
           />
-          <WeekHeader />
+          <WeekHeader/>
           <Month
             displayDate={displayDate}
             key={displayDate.toDateString()}
@@ -119,24 +127,69 @@ const Calendar = ({
             readOnly={readOnly}
             ref={calendar}
           />
-          <TextField
-            id="datetime-local"
-            label="Rendi algus"
-            type="datetime-local"
-            defaultValue="2017-05-24T10:30"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
-          <TextField
-            id="datetime-local"
-            label="Rendi lõpp"
-            type="datetime-local"
-            defaultValue="2017-05-24T10:30"
-            InputLabelProps={{
-              shrink: true,
-            }}
-          />
+          {!disableClock && <>
+            <FormControl variant="outlined">
+              <Select
+                labelId="start-select-outlined-label"
+                id="start-select-outlined"
+                value={chosenStartTs}
+                onChange={(event) => {
+                  // Value has to be a primitive (number, string)
+                  // Otherwise changes are not reflected to UI
+                  const val = event.target.value;
+
+                  if (val !== 100) {
+                    setChosenStartTs(val);
+                  }
+                }}
+                label="Algusaeg"
+              >
+                <MenuItem value={100}>
+                  <em>Algusaeg</em>
+                </MenuItem>
+                {times.map((e, i) => {
+                  return (
+                    <MenuItem
+                      key={`time${e.id}`}
+                      value={i}
+                    >
+                      {moment(e).format('HH:mm')}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+            <FormControl variant="outlined">
+              <Select
+                labelId="end-select-outlined-label"
+                id="end-select-outlined"
+                value={chosenEndTs}
+                onChange={(event) => {
+                  // Value has to be a primitive (number, string)
+                  // Otherwise changes are not reflected to UI
+                  const val = event.target.value;
+
+                  if (val !== 100) {
+                    setChosenEndTs(val);
+                  }
+                }}
+                label="Tagastus kellaaeg"
+              >
+                <MenuItem value={100}>
+                  <em>Tagastus kellaaeg</em>
+                </MenuItem>
+                {times.map((e, i) => {
+                  return (
+                    <MenuItem
+                      key={`time${e.id}`}
+                      value={i}
+                    >
+                      {moment(e).format('HH:mm')}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl></>}
         </div>
         <CalendarButtons
           readOnly={readOnly}
