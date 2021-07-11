@@ -86,8 +86,6 @@ function (_Component) {
     });
 
     _defineProperty(_assertThisInitialized(_this), "isDisabled", function (day) {
-      if (_this.props.readOnly) return true;
-
       var disabledDate = _this.props.disabledDates && _this.props.disabledDates.find(function (d) {
         return _utils["default"].isSameDay(d, day);
       });
