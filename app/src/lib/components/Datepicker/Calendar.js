@@ -16,7 +16,6 @@ const useStyles = makeStyles(theme => ({
     flex: '1',
     display: 'flex',
     maxHeight: '100%',
-    overflow: 'hidden'
   },
   selectorContainer: {
     // marginTop: theme.spacing(2)

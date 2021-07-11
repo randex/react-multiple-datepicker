@@ -39,14 +39,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var styles = function styles(theme) {
   return {
-    root: _defineProperty({
+    root: {
       width: theme.spacing(30),
       backgroundColor: theme.palette.background["default"],
       display: 'flex',
       flexDirection: 'column'
-    }, theme.breakpoints.down('xs'), {
-      display: 'none'
-    }),
+    },
     header: {
       margin: theme.spacing(2),
       // width: '100%',

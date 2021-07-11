@@ -46,8 +46,7 @@ var useStyles = (0, _core.makeStyles)(function (theme) {
     root: {
       flex: '1',
       display: 'flex',
-      maxHeight: '100%',
-      overflow: 'hidden'
+      maxHeight: '100%'
     },
     selectorContainer: {
       // marginTop: theme.spacing(2)
