@@ -11,23 +11,6 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import moment from "moment";
 
-// const Root = styled.div`
-//   color: rgba(0, 0, 0, 0.87);
-//   user-select: none;
-//   overflow: auto;
-//   max-width: 479px:
-// `
-
-// const CalendarContainer = styled.div`
-//   display: flex;
-//   justify-items: space-between;
-//   flex-direction: column;
-//   font-size: 12px;
-//   font-weight: 400;
-//   padding: 0px 8px;
-//   transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-// `
-
 const useStyles = makeStyles(theme => ({
   root: {
     flex: '1',
@@ -46,14 +29,9 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'space-between',
     flexDirection: 'column',
-    padding: `0 ${theme.spacing(1)}px`
+    padding: `0 ${theme.spacing(2)}px`
   }
 }))
-
-// const StyledCalendar = styled.div`
-//   display: flex;
-//   flex-direction: column;
-// `
 
 const Calendar = ({
                     initialDate,
@@ -159,6 +137,7 @@ const Calendar = ({
                 })}
               </Select>
             </FormControl>
+            <br/>
             <FormControl variant="outlined">
               <Select
                 labelId="end-select-outlined-label"

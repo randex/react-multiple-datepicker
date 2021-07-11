@@ -7,8 +7,8 @@ import {makeStyles} from '@material-ui/styles'
 
 const useStyles = makeStyles(theme => ({
   dialogPaper: {
-    minHeight: 482,
-    maxHeight: 482,
+    minHeight: 520,
+    maxHeight: 520,
     display: 'flex',
     [theme.breakpoints.down('xs')]: {
       margin: `${theme.spacing(1)}px`,

@@ -46,8 +46,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var useStyles = (0, _styles.makeStyles)(function (theme) {
   return {
     dialogPaper: _defineProperty({
-      minHeight: 482,
-      maxHeight: 482,
+      minHeight: 520,
+      maxHeight: 520,
       display: 'flex'
     }, theme.breakpoints.down('xs'), {
       margin: "".concat(theme.spacing(1), "px")

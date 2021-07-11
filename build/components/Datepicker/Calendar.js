@@ -41,21 +41,6 @@ function _iterableToArrayLimit(arr, i) { var _arr = []; var _n = true; var _d = 
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-// const Root = styled.div`
-//   color: rgba(0, 0, 0, 0.87);
-//   user-select: none;
-//   overflow: auto;
-//   max-width: 479px:
-// `
-// const CalendarContainer = styled.div`
-//   display: flex;
-//   justify-items: space-between;
-//   flex-direction: column;
-//   font-size: 12px;
-//   font-weight: 400;
-//   padding: 0px 8px;
-//   transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
-// `
 var useStyles = (0, _core.makeStyles)(function (theme) {
   return {
     root: {
@@ -75,13 +60,10 @@ var useStyles = (0, _core.makeStyles)(function (theme) {
       display: 'flex',
       justifyContent: 'space-between',
       flexDirection: 'column',
-      padding: "0 ".concat(theme.spacing(1), "px")
+      padding: "0 ".concat(theme.spacing(2), "px")
     }
   };
-}); // const StyledCalendar = styled.div`
-//   display: flex;
-//   flex-direction: column;
-// `
+});
 
 var Calendar = function Calendar(_ref) {
   var initialDate = _ref.initialDate,
@@ -179,7 +161,7 @@ var Calendar = function Calendar(_ref) {
       key: "time".concat(e.id),
       value: i
     }, (0, _moment["default"])(e).format('HH:mm'));
-  }))), _react["default"].createElement(_FormControl["default"], {
+  }))), _react["default"].createElement("br", null), _react["default"].createElement(_FormControl["default"], {
     variant: "outlined"
   }, _react["default"].createElement(_Select["default"], {
     labelId: "end-select-outlined-label",

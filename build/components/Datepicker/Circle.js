@@ -35,7 +35,7 @@ var useCircleStyles = (0, _core.makeStyles)(function (theme) {
       background: '#ecdfdf'
     },
     todayRoot: {
-      background: '#ecdfdf'
+      background: theme.palette.background["default"]
     },
     checkedRoot: {
       background: theme.palette.primary.main
