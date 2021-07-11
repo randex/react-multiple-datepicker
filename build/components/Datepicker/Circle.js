@@ -32,7 +32,7 @@ var useCircleStyles = (0, _core.makeStyles)(function (theme) {
       color: theme.palette.text.primary
     },
     rootTextDisabled: {
-      color: theme.palette.text.disabled
+      background: '#ecdfdf'
     },
     todayRoot: {
       background: '#ecdfdf'

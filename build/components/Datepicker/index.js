@@ -87,7 +87,17 @@ var DatePicker = function DatePicker(_ref) {
       submitButtonText = _ref$submitButtonText === void 0 ? 'Submit' : _ref$submitButtonText,
       _ref$selectedDatesTit = _ref.selectedDatesTitle,
       selectedDatesTitle = _ref$selectedDatesTit === void 0 ? 'Selected Dates' : _ref$selectedDatesTit,
-      disabledDatesTitle = _ref.disabledDatesTitle;
+      disabledDatesTitle = _ref.disabledDatesTitle,
+      disableClock = _ref.disableClock,
+      times = _ref.times,
+      halfDisabledDates = _ref.halfDisabledDates;
+
+  // Tekitame aegadest topelt halduse - Komponenti antakse kasutaja puhke kellaajad
+  // Kui aga valitud päev on halfDisabledDate - siis näitame algus kella hoopis selle järgi
+  var _useState = (0, _react.useState)(times || []),
+      _useState2 = _slicedToArray(_useState, 2),
+      timesInternal = _useState2[0],
+      setTimesInternal = _useState2[1];
 
   if (cancelButtonText == null) {
     cancelButtonText = readOnly ? 'Dismiss' : 'Cancel';
@@ -103,7 +113,29 @@ var DatePicker = function DatePicker(_ref) {
 
   var classes = useStyles();
   var onSelect = (0, _react.useCallback)(function (day) {
-    if (readOnly) return;
+    if (readOnly) {
+      return;
+    } // RENDIFY LOGIC BEGIN
+    // On toote kella ajad ning on ka renditud päevad
+
+
+    if (times && halfDisabledDates) {
+      var isHalfDisabledDate = halfDisabledDates.find(function (e) {
+        return _utils["default"].isSameDay(day, e);
+      });
+
+      if (isHalfDisabledDate) {
+        alert('see päev on renditud');
+        var later = new Date().getTime() + 86400000;
+        var earlier = new Date().getTime() + 82400000;
+        var tomorrowLater = new Date(later);
+        var tomorrowEarly = new Date(earlier);
+        setTimesInternal([tomorrowEarly, tomorrowLater]);
+      } else {
+        setTimesInternal(times || []);
+      } // RENDIFY END
+
+    }
 
     if (_utils["default"].dateIn(selectedDates, day)) {
       dispatch({
@@ -118,9 +150,11 @@ var DatePicker = function DatePicker(_ref) {
         payload: [].concat(_toConsumableArray(selectedDates), [day])
       });
     }
-  }, [selectedDates, dispatch, readOnly]);
+  }, [selectedDates, dispatch, readOnly, halfDisabledDates, times]);
   var onRemoveAtIndex = (0, _react.useCallback)(function (index) {
-    if (readOnly) return;
+    if (readOnly) {
+      return;
+    }
 
     var newDates = _toConsumableArray(selectedDates);
 
@@ -146,7 +180,11 @@ var DatePicker = function DatePicker(_ref) {
   }, [dismiss]);
   var handleOk = (0, _react.useCallback)(function (e) {
     e.preventDefault();
-    if (readOnly) return;
+
+    if (readOnly) {
+      return;
+    }
+
     onSubmit(selectedDates);
   }, [onSubmit, selectedDates, readOnly]);
   (0, _react.useEffect)(function () {
@@ -173,9 +211,11 @@ var DatePicker = function DatePicker(_ref) {
     onCancel: handleCancel,
     onOk: handleOk,
     readOnly: readOnly,
+    disableClock: disableClock,
     cancelButtonText: cancelButtonText,
     submitButtonText: submitButtonText,
-    selectedDatesTitle: selectedDatesTitle
+    selectedDatesTitle: selectedDatesTitle,
+    times: timesInternal
   }));
 };
 
@@ -188,7 +228,10 @@ DatePicker.propTypes = {
   cancelButtonText: _propTypes["default"].string,
   submitButtonText: _propTypes["default"].string,
   selectedDatesTitle: _propTypes["default"].string,
-  disabledDatesTitle: _propTypes["default"].string
+  disabledDatesTitle: _propTypes["default"].string,
+  disableClock: _propTypes["default"].string,
+  halfDisabledDates: _propTypes["default"].array,
+  times: _propTypes["default"].array
 };
 var _default = DatePicker;
 exports["default"] = _default;

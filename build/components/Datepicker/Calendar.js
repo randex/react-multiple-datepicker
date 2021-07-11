@@ -21,7 +21,13 @@ var _DateDisplay = _interopRequireDefault(require("./DateDisplay"));
 
 var _core = require("@material-ui/core");
 
-var _TextField = _interopRequireDefault(require("@material-ui/core/TextField"));
+var _MenuItem = _interopRequireDefault(require("@material-ui/core/MenuItem"));
+
+var _FormControl = _interopRequireDefault(require("@material-ui/core/FormControl"));
+
+var _Select = _interopRequireDefault(require("@material-ui/core/Select"));
+
+var _moment = _interopRequireDefault(require("moment"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -91,7 +97,20 @@ var Calendar = function Calendar(_ref) {
       cancelButtonText = _ref.cancelButtonText,
       submitButtonText = _ref.submitButtonText,
       selectedDatesTitle = _ref.selectedDatesTitle,
-      disabledDatesTitle = _ref.disabledDatesTitle;
+      disabledDatesTitle = _ref.disabledDatesTitle,
+      disableClock = _ref.disableClock,
+      times = _ref.times;
+
+  var _React$useState = _react["default"].useState(100),
+      _React$useState2 = _slicedToArray(_React$useState, 2),
+      chosenStartTs = _React$useState2[0],
+      setChosenStartTs = _React$useState2[1];
+
+  var _React$useState3 = _react["default"].useState(100),
+      _React$useState4 = _slicedToArray(_React$useState3, 2),
+      chosenEndTs = _React$useState4[0],
+      setChosenEndTs = _React$useState4[1];
+
   var calendar = (0, _react.useRef)(null);
   var classes = useStyles();
 
@@ -137,23 +156,53 @@ var Calendar = function Calendar(_ref) {
     onSelect: onSelect,
     readOnly: readOnly,
     ref: calendar
-  }), _react["default"].createElement(_TextField["default"], {
-    id: "datetime-local",
-    label: "Rendi algus",
-    type: "datetime-local",
-    defaultValue: "2017-05-24T10:30",
-    InputLabelProps: {
-      shrink: true
-    }
-  }), _react["default"].createElement(_TextField["default"], {
-    id: "datetime-local",
-    label: "Rendi l\xF5pp",
-    type: "datetime-local",
-    defaultValue: "2017-05-24T10:30",
-    InputLabelProps: {
-      shrink: true
-    }
-  })), _react["default"].createElement(_CalendarButtons["default"], {
+  }), !disableClock && _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement(_FormControl["default"], {
+    variant: "outlined"
+  }, _react["default"].createElement(_Select["default"], {
+    labelId: "start-select-outlined-label",
+    id: "start-select-outlined",
+    value: chosenStartTs,
+    onChange: function onChange(event) {
+      // Value has to be a primitive (number, string)
+      // Otherwise changes are not reflected to UI
+      var val = event.target.value;
+
+      if (val !== 100) {
+        setChosenStartTs(val);
+      }
+    },
+    label: "Algusaeg"
+  }, _react["default"].createElement(_MenuItem["default"], {
+    value: 100
+  }, _react["default"].createElement("em", null, "Algusaeg")), times.map(function (e, i) {
+    return _react["default"].createElement(_MenuItem["default"], {
+      key: "time".concat(e.id),
+      value: i
+    }, (0, _moment["default"])(e).format('HH:mm'));
+  }))), _react["default"].createElement(_FormControl["default"], {
+    variant: "outlined"
+  }, _react["default"].createElement(_Select["default"], {
+    labelId: "end-select-outlined-label",
+    id: "end-select-outlined",
+    value: chosenEndTs,
+    onChange: function onChange(event) {
+      // Value has to be a primitive (number, string)
+      // Otherwise changes are not reflected to UI
+      var val = event.target.value;
+
+      if (val !== 100) {
+        setChosenEndTs(val);
+      }
+    },
+    label: "Tagastus kellaaeg"
+  }, _react["default"].createElement(_MenuItem["default"], {
+    value: 100
+  }, _react["default"].createElement("em", null, "Tagastus kellaaeg")), times.map(function (e, i) {
+    return _react["default"].createElement(_MenuItem["default"], {
+      key: "time".concat(e.id),
+      value: i
+    }, (0, _moment["default"])(e).format('HH:mm'));
+  }))))), _react["default"].createElement(_CalendarButtons["default"], {
     readOnly: readOnly,
     onCancel: onCancel,
     onOk: onOk,
