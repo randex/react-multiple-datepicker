@@ -195,7 +195,7 @@ const DatePicker = ({
       }
 
       /* validation 3 */
-      if(!chooseMulti){
+      if(chooseMulti === false){
         if(selectedDates.length > 1) {
           setNoticeTxt("Vali ainult üks päev");
 

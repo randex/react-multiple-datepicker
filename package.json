@@ -1,6 +1,6 @@
 {
   "name": "@randex/material-ui-multiple-dates-picker",
-  "version": "0.23.0",
+  "version": "0.24.0",
   "description": "Date Picker with multiple selection based on Material UI",
   "main": "./build/index.js",
   "scripts": {

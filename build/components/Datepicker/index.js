@@ -252,7 +252,7 @@ var DatePicker = function DatePicker(_ref) {
     /* validation 3 */
 
 
-    if (!chooseMulti) {
+    if (chooseMulti === false) {
       if (selectedDates.length > 1) {
         setNoticeTxt("Vali ainult üks päev");
         return;
