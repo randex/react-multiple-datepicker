@@ -229,6 +229,13 @@ var DatePicker = function DatePicker(_ref) {
     if (readOnly) {
       return;
     }
+
+    if (selectedDates.find(function (e) {
+      return (0, _moment["default"])().isAfter((0, _moment["default"])(e));
+    })) {
+      setNoticeTxt("Kuupäev on minevikus.");
+      return;
+    }
     /* validation 1 */
 
 

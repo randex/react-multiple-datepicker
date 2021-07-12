@@ -171,6 +171,10 @@ const DatePicker = ({
         return
       }
 
+      if (selectedDates.find(e => moment().isAfter(moment(e)))) {
+        setNoticeTxt("Kuupäev on minevikus.");
+        return;
+      }
 
       /* validation 1 */
       if (selectedDates.length === 0 || (chooseMulti && selectedDates.length === 1)) {
@@ -195,21 +199,20 @@ const DatePicker = ({
       }
 
       /* validation 3 */
-      if(chooseMulti === false){
-        if(selectedDates.length > 1) {
+      if (chooseMulti === false) {
+        if (selectedDates.length > 1) {
           setNoticeTxt("Vali ainult üks päev");
 
           return;
         }
 
-        if(moment(outterChosenEndTs).isBefore(outterChosenStartTs)) {
+        if (moment(outterChosenEndTs).isBefore(outterChosenStartTs)) {
           setNoticeTxt("Alguse kellaaeg on hiljem kui lõpu.");
           return;
         }
       }
 
-
-      if(!disableClock) {
+      if (!disableClock) {
         /* validation 4 */
         const sortedDates = sortDate(selectedDates); // järjekorda ja vaatame et päevade vahel ei oleks tühjust.
         let triggered = false;
@@ -229,7 +232,7 @@ const DatePicker = ({
           }
         });
 
-        if(triggered) {
+        if (triggered) {
           return;
         }
       }
