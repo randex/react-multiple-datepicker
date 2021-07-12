@@ -36,9 +36,8 @@ const Demo = props => {
 
   const ms = 86400000;
   const later = new Date().getTime() + ms;
-  const earlier = new Date().getTime() + 84400000;
+  const earlier = new Date().getTime() + 82200000;
   const tomorrowLater = new Date(later);
-  const theDayAfterTomorrow = new Date(tomorrowLater.getTime() + ms)
   const tomorrowEarly = new Date(earlier);
 
   return (
@@ -50,13 +49,12 @@ const Demo = props => {
         open={open}
         selectedDates={dates}
         onCancel={onCancel}
-        readOnly
         selectedDatesTitle={"Valitud rendipäevad"}
         disabledDatesTitle={"Broneeritud päevad"}
         onSubmit={onSubmit}
-        disabledDates={[new Date(), tomorrowLater, theDayAfterTomorrow]}
-        halfDisabledDates={[new Date(theDayAfterTomorrow.getTime() + ms)]}
-        times={[tomorrowEarly, tomorrowLater]}
+        halfDisabledDates={[tomorrowEarly]}
+        chooseMulti={true}
+        times={[new Date(), new Date(new Date().getTime() + 26400000)]}
       />
       <Typography color='textSecondary'>
         <code>{JSON.stringify(dates)}</code>

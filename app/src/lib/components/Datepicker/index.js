@@ -4,11 +4,13 @@ import DateUtilities from './utils'
 import Calendar from './Calendar'
 import {Dialog} from '@material-ui/core'
 import {makeStyles} from '@material-ui/styles'
+import {getListForStartAndEndTs} from "./rendifyHelper";
+import moment from 'moment';
 
 const useStyles = makeStyles(theme => ({
   dialogPaper: {
-    minHeight: 520,
-    maxHeight: 520,
+    minHeight: 600,
+    maxHeight: 600,
     display: 'flex',
     [theme.breakpoints.down('xs')]: {
       margin: `${theme.spacing(1)}px`,
@@ -46,11 +48,15 @@ const DatePicker = ({
                       disabledDatesTitle,
                       disableClock,
                       times,
-                      halfDisabledDates
-}) => {
+                      halfDisabledDates,
+                      chooseMulti
+                    }) => {
   // Tekitame aegadest topelt halduse - Komponenti antakse kasutaja puhke kellaajad
   // Kui aga valitud päev on halfDisabledDate - siis näitame algus kella hoopis selle järgi
   const [timesInternal, setTimesInternal] = useState(times || [])
+  const [noticeTxt, setNoticeTxt] = useState('')
+  const [outterChosenStartTs, setChosenOuterStartTs] = React.useState(null);
+  const [outterChosenEndTs, setChosenOuterEndTs] = React.useState(null);
 
   if (cancelButtonText == null) {
     cancelButtonText = readOnly ? 'Dismiss' : 'Cancel'
@@ -62,7 +68,13 @@ const DatePicker = ({
     initState
   )
 
-  const classes = useStyles()
+  const classes = useStyles();
+
+  // When triggered internally in Calendar
+  const setOuterStartEndTs = (start, end) => {
+    setChosenOuterStartTs(start);
+    setChosenOuterEndTs(end);
+  };
 
   const onSelect = useCallback(
     day => {
@@ -70,32 +82,47 @@ const DatePicker = ({
         return
       }
 
+      let selectedDatesPayload = []
+
+      if (DateUtilities.dateIn(selectedDates, day)) {
+        selectedDatesPayload = selectedDates.filter(date => !DateUtilities.isSameDay(date, day));
+
+        dispatch({
+          type: 'setSelectedDates',
+          payload: selectedDatesPayload
+        })
+      } else {
+        selectedDatesPayload = [...selectedDates, day];
+
+        dispatch({type: 'setSelectedDates', payload: selectedDatesPayload})
+      }
+
       // RENDIFY LOGIC BEGIN
       // On toote kella ajad ning on ka renditud päevad
       if (times && halfDisabledDates) {
-        const isHalfDisabledDate = halfDisabledDates.find(e => DateUtilities.isSameDay(day, e))
-        if (isHalfDisabledDate) {
-          alert('see päev on renditud')
-          var later = new Date().getTime() + 86400000;
-          var earlier = new Date().getTime() + 82400000;
-          var tomorrowLater = new Date(later);
-          var tomorrowEarly = new Date(earlier);
+        const anyHalfRentDay = halfDisabledDates.find(half => selectedDatesPayload.find((sel => DateUtilities.isSameDay(sel, half))));
 
-          setTimesInternal([tomorrowEarly, tomorrowLater])
+        if (anyHalfRentDay) {
+          let startTs, endTs;
+          try {
+            // for Date.prototype
+            startTs = moment().set('hours', anyHalfRentDay.getHours() + 1) // + 1 on ajabuhver peale renditagastust.
+            endTs = moment().set('hours', times[times.length - 1].getHours())
+          }
+          catch (e) {
+            // for moment js
+            startTs = moment().set('hours', anyHalfRentDay.hour() + 1) // + 1 on ajabuhver peale renditagastust.
+            endTs = moment().set('hours', times[times.length - 1].hour())
+          }
+          // Arvutame uue alguse kuupäev rendi päeva pealt.
+          setTimesInternal(getListForStartAndEndTs(startTs, endTs));
         } else {
-          setTimesInternal(times || [])
+          setTimesInternal(times)
         }
-        // RENDIFY END
+      } else {
+        return; // Pole bronnitud päevi ja kuupäevad on juba on init paika pandud.
       }
 
-      if (DateUtilities.dateIn(selectedDates, day)) {
-        dispatch({
-          type: 'setSelectedDates',
-          payload: selectedDates.filter(date => !DateUtilities.isSameDay(date, day))
-        })
-      } else {
-        dispatch({type: 'setSelectedDates', payload: [...selectedDates, day]})
-      }
     },
     [selectedDates, dispatch, readOnly, halfDisabledDates, times]
   )
@@ -134,12 +161,34 @@ const DatePicker = ({
   const handleOk = useCallback(
     e => {
       e.preventDefault()
+      alert("triggered");
       if (readOnly) {
         return
       }
+
+      if (selectedDates.length === 0 || (chooseMulti && selectedDates.length === 1)) {
+        setNoticeTxt("Vali alguse- ja lõpukuupäev");
+
+        setTimeout(() => {
+          setNoticeTxt('');
+        }, 3000);
+
+        return;
+      }
+
+      if (outterChosenStartTs === null || outterChosenEndTs === null) {
+        setNoticeTxt("Vali ka rendi algus ja lõpp kellaajad.");
+
+        setTimeout(() => {
+          setNoticeTxt('');
+        }, 3000);
+
+        return;
+      }
+
       onSubmit(selectedDates)
     },
-    [onSubmit, selectedDates, readOnly]
+    [onSubmit, selectedDates, readOnly, outterChosenEndTs, outterChosenStartTs, chooseMulti]
   )
 
   useEffect(
@@ -173,6 +222,8 @@ const DatePicker = ({
         submitButtonText={submitButtonText}
         selectedDatesTitle={selectedDatesTitle}
         times={timesInternal}
+        noticeTxt={noticeTxt}
+        setOuterStartEndTs={setOuterStartEndTs}
       />
       {/* </DialogContent> */}
     </Dialog>
@@ -191,7 +242,8 @@ DatePicker.propTypes = {
   disabledDatesTitle: PropTypes.string,
   disableClock: PropTypes.string,
   halfDisabledDates: PropTypes.array,
-  times: PropTypes.array
+  times: PropTypes.array,
+  chooseMulti: PropTypes.bool
 }
 
 export default DatePicker

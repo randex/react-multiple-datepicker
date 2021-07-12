@@ -10,6 +10,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import moment from "moment";
+import InfoIcon from '@material-ui/icons/Info';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -29,6 +30,15 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     flexDirection: 'column',
     padding: `0 ${theme.spacing(2)}px`
+  },
+  infoContainer: {
+    background: 'rgb(232, 244, 253)',
+    padding: '5px',
+    margin: '5px',
+    borderRadius: '4px'
+  },
+  infoIcon: {
+    color: '#2196f3'
   }
 }))
 
@@ -48,7 +58,9 @@ const Calendar = ({
                     selectedDatesTitle,
                     disabledDatesTitle,
                     disableClock,
-                    times
+                    times,
+                    noticeTxt,
+                    setOuterStartEndTs
                   }) => {
   const [chosenStartTs, setChosenStartTs] = React.useState(100);
   const [chosenEndTs, setChosenEndTs] = React.useState(100);
@@ -86,6 +98,10 @@ const Calendar = ({
     <div className={classes.root}>
       <div className={classes.selectorContainer}>
         <div className={classes.calendarContainer}>
+          {noticeTxt &&
+          <div className={classes.infoContainer}>
+            <p><InfoIcon className={classes.infoIcon}/> {noticeTxt}</p>
+          </div>}
           <CalendarToolbar
             displayDate={displayDate}
             onMonthChange={handleMonthChange}
@@ -117,6 +133,7 @@ const Calendar = ({
 
                   if (val !== 100) {
                     setChosenStartTs(val);
+                    setOuterStartEndTs(chosenStartTs, chosenEndTs)
                   }
                 }}
                 label="Algusaeg"
@@ -149,6 +166,7 @@ const Calendar = ({
 
                   if (val !== 100) {
                     setChosenEndTs(val);
+                    setOuterStartEndTs(chosenStartTs, chosenEndTs)
                   }
                 }}
                 label="Tagastus kellaaeg"

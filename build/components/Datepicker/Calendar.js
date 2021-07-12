@@ -29,6 +29,8 @@ var _Select = _interopRequireDefault(require("@material-ui/core/Select"));
 
 var _moment = _interopRequireDefault(require("moment"));
 
+var _Info = _interopRequireDefault(require("@material-ui/icons/Info"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = Object.defineProperty && Object.getOwnPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : {}; if (desc.get || desc.set) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } } newObj["default"] = obj; return newObj; } }
@@ -60,6 +62,15 @@ var useStyles = (0, _core.makeStyles)(function (theme) {
       justifyContent: 'space-between',
       flexDirection: 'column',
       padding: "0 ".concat(theme.spacing(2), "px")
+    },
+    infoContainer: {
+      background: 'rgb(232, 244, 253)',
+      padding: '5px',
+      margin: '5px',
+      borderRadius: '4px'
+    },
+    infoIcon: {
+      color: '#2196f3'
     }
   };
 });
@@ -80,7 +91,9 @@ var Calendar = function Calendar(_ref) {
       selectedDatesTitle = _ref.selectedDatesTitle,
       disabledDatesTitle = _ref.disabledDatesTitle,
       disableClock = _ref.disableClock,
-      times = _ref.times;
+      times = _ref.times,
+      noticeTxt = _ref.noticeTxt,
+      setOuterStartEndTs = _ref.setOuterStartEndTs;
 
   var _React$useState = _react["default"].useState(100),
       _React$useState2 = _slicedToArray(_React$useState, 2),
@@ -122,7 +135,11 @@ var Calendar = function Calendar(_ref) {
     className: classes.selectorContainer
   }, _react["default"].createElement("div", {
     className: classes.calendarContainer
-  }, _react["default"].createElement(_CalendarToolbar["default"], {
+  }, noticeTxt && _react["default"].createElement("div", {
+    className: classes.infoContainer
+  }, _react["default"].createElement("p", null, _react["default"].createElement(_Info["default"], {
+    className: classes.infoIcon
+  }), " ", noticeTxt)), _react["default"].createElement(_CalendarToolbar["default"], {
     displayDate: displayDate,
     onMonthChange: handleMonthChange,
     prevMonth: toolbarInteractions.prevMonth,
@@ -150,6 +167,7 @@ var Calendar = function Calendar(_ref) {
 
       if (val !== 100) {
         setChosenStartTs(val);
+        setOuterStartEndTs(chosenStartTs, chosenEndTs);
       }
     },
     label: "Algusaeg"
@@ -173,6 +191,7 @@ var Calendar = function Calendar(_ref) {
 
       if (val !== 100) {
         setChosenEndTs(val);
+        setOuterStartEndTs(chosenStartTs, chosenEndTs);
       }
     },
     label: "Tagastus kellaaeg"
