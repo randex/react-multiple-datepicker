@@ -176,12 +176,14 @@ var DatePicker = function DatePicker(_ref) {
         try {
           // for Date.prototype
           startTs = (0, _moment["default"])().set('hours', anyHalfRentDay.getHours() + 1); // + 1 on ajabuhver peale renditagastust.
-
-          endTs = (0, _moment["default"])().set('hours', times[times.length - 1].getHours());
         } catch (e) {
           // for moment js
           startTs = (0, _moment["default"])().set('hours', anyHalfRentDay.hour() + 1); // + 1 on ajabuhver peale renditagastust.
+        }
 
+        try {
+          endTs = (0, _moment["default"])().set('hours', times[times.length - 1].getHours());
+        } catch (e) {
           endTs = (0, _moment["default"])().set('hours', times[times.length - 1].hour());
         } // Arvutame uue alguse kuupäev rendi päeva pealt.
 

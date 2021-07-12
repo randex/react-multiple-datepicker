@@ -107,13 +107,19 @@ const DatePicker = ({
           try {
             // for Date.prototype
             startTs = moment().set('hours', anyHalfRentDay.getHours() + 1) // + 1 on ajabuhver peale renditagastust.
-            endTs = moment().set('hours', times[times.length - 1].getHours())
           }
           catch (e) {
             // for moment js
             startTs = moment().set('hours', anyHalfRentDay.hour() + 1) // + 1 on ajabuhver peale renditagastust.
+          }
+
+          try {
+            endTs = moment().set('hours', times[times.length - 1].getHours())
+          }
+          catch (e) {
             endTs = moment().set('hours', times[times.length - 1].hour())
           }
+
           // Arvutame uue alguse kuupäev rendi päeva pealt.
           setTimesInternal(getListForStartAndEndTs(startTs, endTs));
         } else {
