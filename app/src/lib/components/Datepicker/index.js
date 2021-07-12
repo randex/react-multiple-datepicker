@@ -161,7 +161,6 @@ const DatePicker = ({
   const handleOk = useCallback(
     e => {
       e.preventDefault()
-      alert("triggered");
       if (readOnly) {
         return
       }
@@ -186,7 +185,7 @@ const DatePicker = ({
         return;
       }
 
-      onSubmit(selectedDates)
+      onSubmit({selectedDates, outterChosenStartTs, outterChosenEndTs})
     },
     [onSubmit, selectedDates, readOnly, outterChosenEndTs, outterChosenStartTs, chooseMulti]
   )

@@ -123,6 +123,9 @@ var Calendar = function Calendar(_ref) {
   (0, _react.useEffect)(function () {
     setDisplayDate(_dateUtils.defaultUtils.getFirstDayOfMonth(initialDate || new Date()));
   }, [initialDate]);
+  (0, _react.useEffect)(function () {
+    setOuterStartEndTs(times[chosenStartTs], times[chosenEndTs]);
+  }, [chosenEndTs, chosenStartTs]);
   maxDate = maxDate || _dateUtils.defaultUtils.addYears(new Date(), 100);
   minDate = minDate || _dateUtils.defaultUtils.addYears(new Date(), -100);
   var toolbarInteractions = {
@@ -167,7 +170,6 @@ var Calendar = function Calendar(_ref) {
 
       if (val !== 100) {
         setChosenStartTs(val);
-        setOuterStartEndTs(chosenStartTs, chosenEndTs);
       }
     },
     label: "Algusaeg"
@@ -191,7 +193,6 @@ var Calendar = function Calendar(_ref) {
 
       if (val !== 100) {
         setChosenEndTs(val);
-        setOuterStartEndTs(chosenStartTs, chosenEndTs);
       }
     },
     label: "Tagastus kellaaeg"

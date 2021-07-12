@@ -86,6 +86,10 @@ const Calendar = ({
     [initialDate]
   )
 
+  useEffect(() => {
+    setOuterStartEndTs(times[chosenStartTs], times[chosenEndTs]);
+  }, [chosenEndTs, chosenStartTs])
+
   maxDate = maxDate || utils.addYears(new Date(), 100)
   minDate = minDate || utils.addYears(new Date(), -100)
 
@@ -133,7 +137,6 @@ const Calendar = ({
 
                   if (val !== 100) {
                     setChosenStartTs(val);
-                    setOuterStartEndTs(chosenStartTs, chosenEndTs)
                   }
                 }}
                 label="Algusaeg"
@@ -166,7 +169,6 @@ const Calendar = ({
 
                   if (val !== 100) {
                     setChosenEndTs(val);
-                    setOuterStartEndTs(chosenStartTs, chosenEndTs)
                   }
                 }}
                 label="Tagastus kellaaeg"

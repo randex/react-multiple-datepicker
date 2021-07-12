@@ -21,14 +21,18 @@ const Demo = props => {
   const classes = useStyles()
   const [open, setOpen] = useState(false)
   const [dates, setDates] = useState([])
+  const [startTs, setStartTs] = useState(null)
+  const [endTs, setEndTs] = useState(null)
   const toggleOpen = useCallback(() => setOpen(o => !o), [setOpen])
   const onCancel = useCallback(() => setOpen(false), [setOpen])
   const onSubmit = useCallback(
-    dates => {
-      setDates(dates)
+    ({selectedDates, outterChosenStartTs, outterChosenEndTs}) => {
+      setDates(selectedDates)
+      setStartTs(outterChosenStartTs)
+      setEndTs(outterChosenEndTs)
       setOpen(false)
     },
-    [setDates]
+    [setDates, setStartTs]
   )
 
   // -- 3 tüüpi kuupäevad
@@ -58,6 +62,8 @@ const Demo = props => {
       />
       <Typography color='textSecondary'>
         <code>{JSON.stringify(dates)}</code>
+        <code>{JSON.stringify(startTs)}</code>
+        <code>{JSON.stringify(endTs)}</code>
       </Typography>
     </div>
   )

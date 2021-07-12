@@ -223,7 +223,6 @@ var DatePicker = function DatePicker(_ref) {
   }, [dismiss]);
   var handleOk = (0, _react.useCallback)(function (e) {
     e.preventDefault();
-    alert("triggered");
 
     if (readOnly) {
       return;
@@ -245,7 +244,11 @@ var DatePicker = function DatePicker(_ref) {
       return;
     }
 
-    onSubmit(selectedDates);
+    onSubmit({
+      selectedDates: selectedDates,
+      outterChosenStartTs: outterChosenStartTs,
+      outterChosenEndTs: outterChosenEndTs
+    });
   }, [onSubmit, selectedDates, readOnly, outterChosenEndTs, outterChosenStartTs, chooseMulti]);
   (0, _react.useEffect)(function () {
     if (open) {
