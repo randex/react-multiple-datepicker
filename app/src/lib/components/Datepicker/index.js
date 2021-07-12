@@ -184,7 +184,7 @@ const DatePicker = ({
       }
 
       /* validation 2 */
-      if (!outterChosenStartTs || !outterChosenEndTs) {
+      if (!disableClock && (!outterChosenStartTs || !outterChosenEndTs)) {
         setNoticeTxt("Vali ka rendi algus ja lõpp kellaajad.");
 
         setTimeout(() => {
@@ -209,31 +209,34 @@ const DatePicker = ({
       }
 
 
-      /* validation 4 */
-      const sortedDates = sortDate(selectedDates); // järjekorda ja vaatame et päevade vahel ei oleks tühjust.
-      let triggered = false;
-      sortedDates.forEach((sd, i) => {
-        if (triggered) {
+      if(!disableClock) {
+        /* validation 4 */
+        const sortedDates = sortDate(selectedDates); // järjekorda ja vaatame et päevade vahel ei oleks tühjust.
+        let triggered = false;
+
+        sortedDates.forEach((sd, i) => {
+          if (triggered) {
+            return;
+          }
+
+          const chosen = sd;
+          const nextChosen = sortedDates[i + 1];
+          const duration = moment.duration(moment(nextChosen).diff(moment(chosen)));
+
+          if (nextChosen && duration.asDays() > 1) {
+            triggered = true;
+            setNoticeTxt("Päevade vahel ei tohi olla tühja päeva.");
+          }
+        });
+
+        if(triggered) {
           return;
         }
-
-        const chosen = sd;
-        const nextChosen = sortedDates[i + 1];
-        const duration = moment.duration(moment(nextChosen).diff(moment(chosen)));
-
-        if (nextChosen && duration.asDays() > 1) {
-          triggered = true;
-          setNoticeTxt("Päevade vahel ei tohi olla tühja päeva.");
-        }
-      });
-
-      if(triggered) {
-        return;
       }
 
       onSubmit({selectedDates, outterChosenStartTs, outterChosenEndTs})
     },
-    [onSubmit, selectedDates, readOnly, outterChosenEndTs, outterChosenStartTs, chooseMulti]
+    [onSubmit, selectedDates, readOnly, outterChosenEndTs, outterChosenStartTs, chooseMulti, chooseMulti]
   )
 
   useEffect(

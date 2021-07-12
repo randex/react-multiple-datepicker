@@ -242,7 +242,7 @@ var DatePicker = function DatePicker(_ref) {
     /* validation 2 */
 
 
-    if (!outterChosenStartTs || !outterChosenEndTs) {
+    if (!disableClock && (!outterChosenStartTs || !outterChosenEndTs)) {
       setNoticeTxt("Vali ka rendi algus ja lõpp kellaajad.");
       setTimeout(function () {
         setNoticeTxt('');
@@ -263,30 +263,31 @@ var DatePicker = function DatePicker(_ref) {
         return;
       }
     }
-    /* validation 4 */
 
+    if (!disableClock) {
+      /* validation 4 */
+      var sortedDates = (0, _rendifyHelper.sortDate)(selectedDates); // järjekorda ja vaatame et päevade vahel ei oleks tühjust.
 
-    var sortedDates = (0, _rendifyHelper.sortDate)(selectedDates); // järjekorda ja vaatame et päevade vahel ei oleks tühjust.
+      var triggered = false;
+      sortedDates.forEach(function (sd, i) {
+        if (triggered) {
+          return;
+        }
 
-    var triggered = false;
-    sortedDates.forEach(function (sd, i) {
+        var chosen = sd;
+        var nextChosen = sortedDates[i + 1];
+
+        var duration = _moment["default"].duration((0, _moment["default"])(nextChosen).diff((0, _moment["default"])(chosen)));
+
+        if (nextChosen && duration.asDays() > 1) {
+          triggered = true;
+          setNoticeTxt("Päevade vahel ei tohi olla tühja päeva.");
+        }
+      });
+
       if (triggered) {
         return;
       }
-
-      var chosen = sd;
-      var nextChosen = sortedDates[i + 1];
-
-      var duration = _moment["default"].duration((0, _moment["default"])(nextChosen).diff((0, _moment["default"])(chosen)));
-
-      if (nextChosen && duration.asDays() > 1) {
-        triggered = true;
-        setNoticeTxt("Päevade vahel ei tohi olla tühja päeva.");
-      }
-    });
-
-    if (triggered) {
-      return;
     }
 
     onSubmit({
@@ -294,7 +295,7 @@ var DatePicker = function DatePicker(_ref) {
       outterChosenStartTs: outterChosenStartTs,
       outterChosenEndTs: outterChosenEndTs
     });
-  }, [onSubmit, selectedDates, readOnly, outterChosenEndTs, outterChosenStartTs, chooseMulti]);
+  }, [onSubmit, selectedDates, readOnly, outterChosenEndTs, outterChosenStartTs, chooseMulti, chooseMulti]);
   (0, _react.useEffect)(function () {
     if (open) {
       dispatch({
