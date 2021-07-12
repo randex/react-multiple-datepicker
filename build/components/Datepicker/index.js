@@ -229,6 +229,8 @@ var DatePicker = function DatePicker(_ref) {
     if (readOnly) {
       return;
     }
+    /* validation 1 */
+
 
     if (selectedDates.length === 0 || chooseMulti && selectedDates.length === 1) {
       setNoticeTxt("Vali alguse- ja lõpukuupäev");
@@ -237,6 +239,8 @@ var DatePicker = function DatePicker(_ref) {
       }, 3000);
       return;
     }
+    /* validation 2 */
+
 
     if (!outterChosenStartTs || !outterChosenEndTs) {
       setNoticeTxt("Vali ka rendi algus ja lõpp kellaajad.");
@@ -245,6 +249,22 @@ var DatePicker = function DatePicker(_ref) {
       }, 3000);
       return;
     }
+    /* validation 3 */
+
+
+    if (!chooseMulti) {
+      if (selectedDates.length > 1) {
+        setNoticeTxt("Vali ainult üks päev");
+        return;
+      }
+
+      if ((0, _moment["default"])(outterChosenEndTs).isBefore(outterChosenStartTs)) {
+        setNoticeTxt("Alguse kellaaeg on hiljem kui lõpu.");
+        return;
+      }
+    }
+    /* validation 4 */
+
 
     var sortedDates = (0, _rendifyHelper.sortDate)(selectedDates); // järjekorda ja vaatame et päevade vahel ei oleks tühjust.
 

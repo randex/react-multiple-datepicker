@@ -57,7 +57,6 @@ const Demo = props => {
         disabledDatesTitle={"Broneeritud päevad"}
         onSubmit={onSubmit}
         halfDisabledDates={[tomorrowEarly]}
-        chooseMulti={true}
         times={[new Date(), new Date(new Date().getTime() + 26400000)]}
       />
       <Typography color='textSecondary'>

@@ -171,6 +171,8 @@ const DatePicker = ({
         return
       }
 
+
+      /* validation 1 */
       if (selectedDates.length === 0 || (chooseMulti && selectedDates.length === 1)) {
         setNoticeTxt("Vali alguse- ja lõpukuupäev");
 
@@ -181,6 +183,7 @@ const DatePicker = ({
         return;
       }
 
+      /* validation 2 */
       if (!outterChosenStartTs || !outterChosenEndTs) {
         setNoticeTxt("Vali ka rendi algus ja lõpp kellaajad.");
 
@@ -191,6 +194,22 @@ const DatePicker = ({
         return;
       }
 
+      /* validation 3 */
+      if(!chooseMulti){
+        if(selectedDates.length > 1) {
+          setNoticeTxt("Vali ainult üks päev");
+
+          return;
+        }
+
+        if(moment(outterChosenEndTs).isBefore(outterChosenStartTs)) {
+          setNoticeTxt("Alguse kellaaeg on hiljem kui lõpu.");
+          return;
+        }
+      }
+
+
+      /* validation 4 */
       const sortedDates = sortDate(selectedDates); // järjekorda ja vaatame et päevade vahel ei oleks tühjust.
       let triggered = false;
       sortedDates.forEach((sd, i) => {

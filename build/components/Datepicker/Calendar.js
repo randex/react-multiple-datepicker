@@ -124,7 +124,6 @@ var Calendar = function Calendar(_ref) {
     setDisplayDate(_dateUtils.defaultUtils.getFirstDayOfMonth(initialDate || new Date()));
   }, [initialDate]);
   (0, _react.useEffect)(function () {
-    alert('chaing');
     setOuterStartEndTs(times[chosenStartTs], times[chosenEndTs]);
   }, [chosenEndTs, chosenStartTs, setOuterStartEndTs, times]);
   maxDate = maxDate || _dateUtils.defaultUtils.addYears(new Date(), 100);
@@ -158,10 +157,7 @@ var Calendar = function Calendar(_ref) {
     onSelect: onSelect,
     readOnly: readOnly,
     ref: calendar
-  }), !disableClock && _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement(_FormControl["default"], {
-    variant: "outlined"
-  }, _react["default"].createElement(_Select["default"], {
-    labelId: "start-select-outlined-label",
+  }), !disableClock && _react["default"].createElement(_react["default"].Fragment, null, _react["default"].createElement(_FormControl["default"], null, _react["default"].createElement(_Select["default"], {
     id: "start-select-outlined",
     value: chosenStartTs,
     onChange: function onChange(event) {
@@ -181,10 +177,7 @@ var Calendar = function Calendar(_ref) {
       key: "time".concat(e.id),
       value: i
     }, (0, _moment["default"])(e).format('HH:mm'));
-  }))), _react["default"].createElement("br", null), _react["default"].createElement(_FormControl["default"], {
-    variant: "outlined"
-  }, _react["default"].createElement(_Select["default"], {
-    labelId: "end-select-outlined-label",
+  }))), _react["default"].createElement("br", null), _react["default"].createElement(_FormControl["default"], null, _react["default"].createElement(_Select["default"], {
     id: "end-select-outlined",
     value: chosenEndTs,
     onChange: function onChange(event) {

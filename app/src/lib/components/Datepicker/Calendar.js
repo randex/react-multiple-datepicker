@@ -87,7 +87,6 @@ const Calendar = ({
   )
 
   useEffect(() => {
-    alert('chaing');
     setOuterStartEndTs(times[chosenStartTs], times[chosenEndTs]);
   }, [chosenEndTs, chosenStartTs, setOuterStartEndTs, times])
 
@@ -126,9 +125,8 @@ const Calendar = ({
             ref={calendar}
           />
           {!disableClock && <>
-            <FormControl variant="outlined">
+            <FormControl>
               <Select
-                labelId="start-select-outlined-label"
                 id="start-select-outlined"
                 value={chosenStartTs}
                 onChange={(event) => {
@@ -158,9 +156,8 @@ const Calendar = ({
               </Select>
             </FormControl>
             <br/>
-            <FormControl variant="outlined">
+            <FormControl>
               <Select
-                labelId="end-select-outlined-label"
                 id="end-select-outlined"
                 value={chosenEndTs}
                 onChange={(event) => {
