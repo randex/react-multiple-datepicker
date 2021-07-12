@@ -87,8 +87,9 @@ const Calendar = ({
   )
 
   useEffect(() => {
+    alert('chaing');
     setOuterStartEndTs(times[chosenStartTs], times[chosenEndTs]);
-  }, [chosenEndTs, chosenStartTs])
+  }, [chosenEndTs, chosenStartTs, setOuterStartEndTs, times])
 
   maxDate = maxDate || utils.addYears(new Date(), 100)
   minDate = minDate || utils.addYears(new Date(), -100)

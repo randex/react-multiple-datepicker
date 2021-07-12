@@ -3,6 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.sortDate = sortDate;
 exports.getListForStartAndEndTs = void 0;
 
 var _moment = _interopRequireDefault(require("moment"));
@@ -25,3 +26,9 @@ var getListForStartAndEndTs = function getListForStartAndEndTs(startTs, endTs) {
 };
 
 exports.getListForStartAndEndTs = getListForStartAndEndTs;
+
+function sortDate(dates) {
+  return dates.sort(function (a, b) {
+    return (0, _moment["default"])(a).diff((0, _moment["default"])(b));
+  });
+}

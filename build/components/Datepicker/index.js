@@ -238,11 +238,34 @@ var DatePicker = function DatePicker(_ref) {
       return;
     }
 
-    if (outterChosenStartTs === null || outterChosenEndTs === null) {
+    if (!outterChosenStartTs || !outterChosenEndTs) {
       setNoticeTxt("Vali ka rendi algus ja lõpp kellaajad.");
       setTimeout(function () {
         setNoticeTxt('');
       }, 3000);
+      return;
+    }
+
+    var sortedDates = (0, _rendifyHelper.sortDate)(selectedDates); // järjekorda ja vaatame et päevade vahel ei oleks tühjust.
+
+    var triggered = false;
+    sortedDates.forEach(function (sd, i) {
+      if (triggered) {
+        return;
+      }
+
+      var chosen = sd;
+      var nextChosen = sortedDates[i + 1];
+
+      var duration = _moment["default"].duration((0, _moment["default"])(nextChosen).diff((0, _moment["default"])(chosen)));
+
+      if (nextChosen && duration.asDays() > 1) {
+        triggered = true;
+        setNoticeTxt("Päevade vahel ei tohi olla tühja päeva.");
+      }
+    });
+
+    if (triggered) {
       return;
     }
 

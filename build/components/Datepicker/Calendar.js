@@ -124,8 +124,9 @@ var Calendar = function Calendar(_ref) {
     setDisplayDate(_dateUtils.defaultUtils.getFirstDayOfMonth(initialDate || new Date()));
   }, [initialDate]);
   (0, _react.useEffect)(function () {
+    alert('chaing');
     setOuterStartEndTs(times[chosenStartTs], times[chosenEndTs]);
-  }, [chosenEndTs, chosenStartTs]);
+  }, [chosenEndTs, chosenStartTs, setOuterStartEndTs, times]);
   maxDate = maxDate || _dateUtils.defaultUtils.addYears(new Date(), 100);
   minDate = minDate || _dateUtils.defaultUtils.addYears(new Date(), -100);
   var toolbarInteractions = {

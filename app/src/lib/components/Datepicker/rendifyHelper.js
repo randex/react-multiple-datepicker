@@ -14,3 +14,8 @@ export const getListForStartAndEndTs = (startTs, endTs) => {
   }
   return listOfTimes;
 };
+
+
+export function sortDate(dates) {
+  return dates.sort((a, b) => moment(a).diff(moment(b)))
+}
