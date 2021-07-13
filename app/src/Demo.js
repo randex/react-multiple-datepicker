@@ -62,6 +62,7 @@ const Demo = props => {
         selectedDatesTitle={"Valitud rendipäevad"}
         disabledDatesTitle={"Broneeritud päevad"}
         onSubmit={onSubmit}
+        chooseMulti={null}
         selectedStartTs={selectedStartTs}
         selectedEndTs={selectedEndTs}
         halfDisabledDates={[tomorrowEarly]}

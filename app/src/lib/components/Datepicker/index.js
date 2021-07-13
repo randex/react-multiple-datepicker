@@ -185,7 +185,7 @@ const DatePicker = ({
       }
 
       /* validation 1 */
-      if (selectedDates.length === 0 || (chooseMulti && selectedDates.length === 1)) {
+      if (chooseMulti && (selectedDates.length === 0 || selectedDates.length === 1)) {
         setNoticeTxt("Vali alguse- ja lõpukuupäev");
         return reset();
       }
