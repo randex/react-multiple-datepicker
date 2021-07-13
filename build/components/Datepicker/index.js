@@ -95,7 +95,9 @@ var DatePicker = function DatePicker(_ref) {
       disableClock = _ref.disableClock,
       times = _ref.times,
       halfDisabledDates = _ref.halfDisabledDates,
-      chooseMulti = _ref.chooseMulti;
+      chooseMulti = _ref.chooseMulti,
+      selectedStartTs = _ref.selectedStartTs,
+      selectedEndTs = _ref.selectedEndTs;
 
   // Tekitame aegadest topelt halduse - Komponenti antakse kasutaja puhke kellaajad
   // Kui aga valitud päev on halfDisabledDate - siis näitame algus kella hoopis selle järgi
@@ -171,13 +173,11 @@ var DatePicker = function DatePicker(_ref) {
       });
 
       if (anyHalfRentDay) {
-        var startTs, endTs;
+        var startTs, endTs; // for Date.prototype And Moment jS
 
         try {
-          // for Date.prototype
           startTs = (0, _moment["default"])().set('hours', anyHalfRentDay.getHours() + 1); // + 1 on ajabuhver peale renditagastust.
         } catch (e) {
-          // for moment js
           startTs = (0, _moment["default"])().set('hours', anyHalfRentDay.hour() + 1); // + 1 on ajabuhver peale renditagastust.
         }
 
@@ -230,31 +230,31 @@ var DatePicker = function DatePicker(_ref) {
       return;
     }
 
+    var reset = function reset() {
+      setTimeout(function () {
+        setNoticeTxt('');
+      }, 3000);
+    };
+
     if (selectedDates.find(function (e) {
       return (0, _moment["default"])().isAfter((0, _moment["default"])(e));
     })) {
       setNoticeTxt("Kuupäev on minevikus.");
-      return;
+      return reset();
     }
     /* validation 1 */
 
 
     if (selectedDates.length === 0 || chooseMulti && selectedDates.length === 1) {
       setNoticeTxt("Vali alguse- ja lõpukuupäev");
-      setTimeout(function () {
-        setNoticeTxt('');
-      }, 3000);
-      return;
+      return reset();
     }
     /* validation 2 */
 
 
     if (!disableClock && (!outterChosenStartTs || !outterChosenEndTs)) {
       setNoticeTxt("Vali ka rendi algus ja lõpp kellaajad.");
-      setTimeout(function () {
-        setNoticeTxt('');
-      }, 3000);
-      return;
+      return reset();
     }
     /* validation 3 */
 
@@ -262,12 +262,12 @@ var DatePicker = function DatePicker(_ref) {
     if (chooseMulti === false) {
       if (selectedDates.length > 1) {
         setNoticeTxt("Vali ainult üks päev");
-        return;
+        return reset();
       }
 
       if ((0, _moment["default"])(outterChosenEndTs).isBefore(outterChosenStartTs)) {
         setNoticeTxt("Alguse kellaaeg on hiljem kui lõpu.");
-        return;
+        return reset();
       }
     }
 
@@ -289,6 +289,7 @@ var DatePicker = function DatePicker(_ref) {
         if (nextChosen && duration.asDays() > 1) {
           triggered = true;
           setNoticeTxt("Päevade vahel ei tohi olla tühja päeva.");
+          return reset();
         }
       });
 
@@ -333,6 +334,8 @@ var DatePicker = function DatePicker(_ref) {
     selectedDatesTitle: selectedDatesTitle,
     times: timesInternal,
     noticeTxt: noticeTxt,
+    selectedStartTs: selectedStartTs,
+    selectedEndTs: selectedEndTs,
     setOuterStartEndTs: setOuterStartEndTs
   }));
 };
@@ -350,7 +353,9 @@ DatePicker.propTypes = {
   disableClock: _propTypes["default"].string,
   halfDisabledDates: _propTypes["default"].array,
   times: _propTypes["default"].array,
-  chooseMulti: _propTypes["default"].bool
+  chooseMulti: _propTypes["default"].bool,
+  selectedStartTs: _propTypes["default"].string,
+  selectedEndTs: _propTypes["default"].string
 };
 var _default = DatePicker;
 exports["default"] = _default;

@@ -49,7 +49,9 @@ const DatePicker = ({
                       disableClock,
                       times,
                       halfDisabledDates,
-                      chooseMulti
+                      chooseMulti,
+                      selectedStartTs,
+                      selectedEndTs
                     }) => {
   // Tekitame aegadest topelt halduse - Komponenti antakse kasutaja puhke kellaajad
   // Kui aga valitud päev on halfDisabledDate - siis näitame algus kella hoopis selle järgi
@@ -104,12 +106,12 @@ const DatePicker = ({
 
         if (anyHalfRentDay) {
           let startTs, endTs;
+
+          // for Date.prototype And Moment jS
           try {
-            // for Date.prototype
             startTs = moment().set('hours', anyHalfRentDay.getHours() + 1) // + 1 on ajabuhver peale renditagastust.
           }
           catch (e) {
-            // for moment js
             startTs = moment().set('hours', anyHalfRentDay.hour() + 1) // + 1 on ajabuhver peale renditagastust.
           }
 
@@ -171,44 +173,39 @@ const DatePicker = ({
         return
       }
 
+      const reset = () => {
+        setTimeout(() => {
+          setNoticeTxt('');
+        }, 3000);
+      }
+
       if (selectedDates.find(e => moment().isAfter(moment(e)))) {
         setNoticeTxt("Kuupäev on minevikus.");
-        return;
+        return reset();
       }
 
       /* validation 1 */
       if (selectedDates.length === 0 || (chooseMulti && selectedDates.length === 1)) {
         setNoticeTxt("Vali alguse- ja lõpukuupäev");
-
-        setTimeout(() => {
-          setNoticeTxt('');
-        }, 3000);
-
-        return;
+        return reset();
       }
 
       /* validation 2 */
       if (!disableClock && (!outterChosenStartTs || !outterChosenEndTs)) {
         setNoticeTxt("Vali ka rendi algus ja lõpp kellaajad.");
-
-        setTimeout(() => {
-          setNoticeTxt('');
-        }, 3000);
-
-        return;
+        return reset();
       }
 
       /* validation 3 */
       if (chooseMulti === false) {
         if (selectedDates.length > 1) {
           setNoticeTxt("Vali ainult üks päev");
-
-          return;
+          return reset();
         }
 
         if (moment(outterChosenEndTs).isBefore(outterChosenStartTs)) {
           setNoticeTxt("Alguse kellaaeg on hiljem kui lõpu.");
-          return;
+          return reset();
         }
       }
 
@@ -229,6 +226,7 @@ const DatePicker = ({
           if (nextChosen && duration.asDays() > 1) {
             triggered = true;
             setNoticeTxt("Päevade vahel ei tohi olla tühja päeva.");
+            return reset();
           }
         });
 
@@ -274,6 +272,8 @@ const DatePicker = ({
         selectedDatesTitle={selectedDatesTitle}
         times={timesInternal}
         noticeTxt={noticeTxt}
+        selectedStartTs={selectedStartTs}
+        selectedEndTs={selectedEndTs}
         setOuterStartEndTs={setOuterStartEndTs}
       />
       {/* </DialogContent> */}
@@ -294,7 +294,9 @@ DatePicker.propTypes = {
   disableClock: PropTypes.string,
   halfDisabledDates: PropTypes.array,
   times: PropTypes.array,
-  chooseMulti: PropTypes.bool
+  chooseMulti: PropTypes.bool,
+  selectedStartTs: PropTypes.string,
+  selectedEndTs: PropTypes.string
 }
 
 export default DatePicker

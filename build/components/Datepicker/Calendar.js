@@ -67,10 +67,16 @@ var useStyles = (0, _core.makeStyles)(function (theme) {
       background: 'rgb(232, 244, 253)',
       padding: '5px',
       margin: '5px',
-      borderRadius: '4px'
+      color: 'rgb(13, 60, 97)',
+      borderRadius: '4px',
+      border: '1px solid rgb(194 226 239)'
     },
     infoIcon: {
-      color: '#2196f3'
+      color: '#2196f3',
+      fontSize: '17px'
+    },
+    infoTxt: {
+      fontSize: '18px'
     }
   };
 });
@@ -93,18 +99,29 @@ var Calendar = function Calendar(_ref) {
       disableClock = _ref.disableClock,
       times = _ref.times,
       noticeTxt = _ref.noticeTxt,
-      setOuterStartEndTs = _ref.setOuterStartEndTs;
+      setOuterStartEndTs = _ref.setOuterStartEndTs,
+      selectedStartTs = _ref.selectedStartTs,
+      selectedEndTs = _ref.selectedEndTs;
 
-  var _React$useState = _react["default"].useState(100),
+  var _React$useState = _react["default"].useState(selectedStartTs),
       _React$useState2 = _slicedToArray(_React$useState, 2),
       chosenStartTs = _React$useState2[0],
       setChosenStartTs = _React$useState2[1];
 
-  var _React$useState3 = _react["default"].useState(100),
+  var _React$useState3 = _react["default"].useState(selectedEndTs),
       _React$useState4 = _slicedToArray(_React$useState3, 2),
       chosenEndTs = _React$useState4[0],
       setChosenEndTs = _React$useState4[1];
 
+  (0, _react.useEffect)(function () {
+    if (times.indexOf(selectedEndTs) !== -1) {
+      setChosenEndTs(times.indexOf(selectedEndTs));
+    }
+
+    if (times.indexOf(selectedStartTs) !== -1) {
+      setChosenStartTs(times.indexOf(selectedStartTs));
+    }
+  }, []);
   var calendar = (0, _react.useRef)(null);
   var classes = useStyles();
 
@@ -142,7 +159,9 @@ var Calendar = function Calendar(_ref) {
     className: classes.infoContainer
   }, _react["default"].createElement("p", null, _react["default"].createElement(_Info["default"], {
     className: classes.infoIcon
-  }), " ", noticeTxt)), _react["default"].createElement(_CalendarToolbar["default"], {
+  }), _react["default"].createElement("span", {
+    className: classes.infoTxt
+  }, noticeTxt))), _react["default"].createElement(_CalendarToolbar["default"], {
     displayDate: displayDate,
     onMonthChange: handleMonthChange,
     prevMonth: toolbarInteractions.prevMonth,

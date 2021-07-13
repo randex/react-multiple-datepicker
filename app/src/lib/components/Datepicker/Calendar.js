@@ -35,10 +35,16 @@ const useStyles = makeStyles(theme => ({
     background: 'rgb(232, 244, 253)',
     padding: '5px',
     margin: '5px',
-    borderRadius: '4px'
+    color: 'rgb(13, 60, 97)',
+    borderRadius: '4px',
+    border: '1px solid rgb(194 226 239)'
   },
   infoIcon: {
-    color: '#2196f3'
+    color: '#2196f3',
+    fontSize: '17px'
+  },
+  infoTxt: {
+    fontSize: '18px'
   }
 }))
 
@@ -60,10 +66,22 @@ const Calendar = ({
                     disableClock,
                     times,
                     noticeTxt,
-                    setOuterStartEndTs
+                    setOuterStartEndTs,
+                    selectedStartTs,
+                    selectedEndTs
                   }) => {
-  const [chosenStartTs, setChosenStartTs] = React.useState(100);
-  const [chosenEndTs, setChosenEndTs] = React.useState(100);
+  const [chosenStartTs, setChosenStartTs] = React.useState(selectedStartTs);
+  const [chosenEndTs, setChosenEndTs] = React.useState(selectedEndTs);
+
+  useEffect(() => {
+    if(times.indexOf(selectedEndTs) !== -1) {
+      setChosenEndTs(times.indexOf(selectedEndTs))
+    }
+
+    if(times.indexOf(selectedStartTs) !== -1) {
+      setChosenStartTs(times.indexOf(selectedStartTs))
+    }
+  }, []);
 
   const calendar = useRef(null)
   const classes = useStyles();
@@ -104,7 +122,7 @@ const Calendar = ({
         <div className={classes.calendarContainer}>
           {noticeTxt &&
           <div className={classes.infoContainer}>
-            <p><InfoIcon className={classes.infoIcon}/> {noticeTxt}</p>
+            <p><InfoIcon className={classes.infoIcon}/><span className={classes.infoTxt}>{noticeTxt}</span></p>
           </div>}
           <CalendarToolbar
             displayDate={displayDate}

@@ -23,12 +23,18 @@ const Demo = props => {
   const [dates, setDates] = useState([])
   const [startTs, setStartTs] = useState(null)
   const [endTs, setEndTs] = useState(null)
+
+  const [selectedStartTs, setSelectedStartTs] = useState(100)
+  const [selectedEndTs, setSelectedEndTs] = useState(100)
+
   const toggleOpen = useCallback(() => setOpen(o => !o), [setOpen])
   const onCancel = useCallback(() => setOpen(false), [setOpen])
   const onSubmit = useCallback(
     ({selectedDates, outterChosenStartTs, outterChosenEndTs}) => {
       setDates(selectedDates)
       setStartTs(outterChosenStartTs)
+      setSelectedEndTs(outterChosenEndTs)
+      setSelectedStartTs(outterChosenStartTs)
       setEndTs(outterChosenEndTs)
       setOpen(false)
     },
@@ -56,6 +62,8 @@ const Demo = props => {
         selectedDatesTitle={"Valitud rendipäevad"}
         disabledDatesTitle={"Broneeritud päevad"}
         onSubmit={onSubmit}
+        selectedStartTs={selectedStartTs}
+        selectedEndTs={selectedEndTs}
         halfDisabledDates={[tomorrowEarly]}
         times={[new Date(), new Date(new Date().getTime() + 26400000)]}
       />
