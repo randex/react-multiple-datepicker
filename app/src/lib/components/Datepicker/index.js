@@ -42,7 +42,8 @@ const DatePicker = ({
   disabledDates,
   cancelButtonText,
   submitButtonText = 'Submit',
-  selectedDatesTitle = 'Selected Dates'
+  selectedDatesTitle = 'Selected Dates',
+  initialDate = new Date()
 }) => {
   if (cancelButtonText == null) {
     cancelButtonText = readOnly ? 'Dismiss' : 'Cancel'
@@ -138,6 +139,7 @@ const DatePicker = ({
         cancelButtonText={cancelButtonText}
         submitButtonText={submitButtonText}
         selectedDatesTitle={selectedDatesTitle}
+        initialDate={initialDate}
       />
       {/* </DialogContent> */}
     </Dialog>
@@ -152,7 +154,8 @@ DatePicker.propTypes = {
   selectedDates: PropTypes.array,
   cancelButtonText: PropTypes.string,
   submitButtonText: PropTypes.string,
-  selectedDatesTitle: PropTypes.string
+  selectedDatesTitle: PropTypes.string,
+  initialDate: PropTypes.instanceOf(Date)
 }
 
 export default DatePicker

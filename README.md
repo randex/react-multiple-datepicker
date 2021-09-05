@@ -68,6 +68,7 @@ const Example = () => {
 | cancelButtonText   | string          | if `readOnly` then "Dismiss" is not then "Cancel" | Cancel button title                                          |
 | submitButtonText   | string          | Submit                                            | Submit button title                                          |
 | selectedDatesTitle | string          | Selected Dates                                    | Selected dates list header title                             |
+| initialDate        | Date            | new Date()                                        | Open the calendar on a specific date                         |
 
 ## To-Do
 
