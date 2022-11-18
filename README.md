@@ -2,7 +2,7 @@
 
 **This package is now deprecated. Please use [@ambiot/material-ui-multiple-dates-picker](https://github.com/ambiot-llc/react-mui-multiple-datepicker) instead.**
 
-It's deprecated because I left my job I built this package for, I'm not doing React development anymore and won't come back in the near future. The package is now under the keen eye of my former employer. Thanks for your issues and PRs, and I'm sorry I haven't been a good maintainer of my first ever open source package. I'll be better, I promise!
+It's deprecated because I left my job I built this package for, I'm not doing React development anymore and won't come back in the near future. The package is now maintained by my former employer. Thanks for your issues and PRs, and I'm sorry I haven't been a good maintainer of my first ever open source package. I'll be better, I promise!
 
 # Material-UI Multiple Dates Picker
 
